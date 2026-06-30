@@ -1,7 +1,7 @@
 # AquaLab — image de la mini-API (Axe 6 : conteneurisation sécurisée)
 # Bonnes pratiques : image officielle légère, version figée, utilisateur non-root,
 # dépendances installées proprement, healthcheck.
-FROM python:3.12-slim
+FROM python:3.14-slim
 
 # Empêche Python d'écrire des .pyc et force le flush des logs
 ENV PYTHONDONTWRITEBYTECODE=1 \
