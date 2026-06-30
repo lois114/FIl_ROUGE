@@ -12,7 +12,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -25,7 +25,7 @@ jobs:
   secrets-scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Gitleaks
@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ test ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Build de l'image Docker
         run: docker build -t aqualab-app:${{ github.sha }} .
       - name: Scan de l'image (Trivy via image officielle)
@@ -60,7 +60,7 @@ jobs:
     needs: [ build-and-scan, secrets-scan ]
     if: github.ref == 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Déploiement
         run: |
           echo "Connexion au serveur et 'docker compose up -d' via SSH"
