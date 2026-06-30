@@ -68,7 +68,9 @@ CREATE TABLE parametre (
 );
 
 -- ---------- Analyses (un paramètre mesuré sur un échantillon) ----------
-CREATE TABLE analyse (
+-- NB : la table s'appelle "analyse_param" car ANALYSE/ANALYZE est un mot-clé
+--      réservé de PostgreSQL (impossible comme nom de table sans guillemets).
+CREATE TABLE analyse_param (
     id              SERIAL PRIMARY KEY,
     echantillon_id  INTEGER NOT NULL REFERENCES echantillon(id) ON DELETE CASCADE,
     parametre_id    INTEGER NOT NULL REFERENCES parametre(id),
@@ -82,7 +84,7 @@ CREATE TABLE analyse (
 -- ---------- Résultats (avec double validation = séparation des tâches) ----------
 CREATE TABLE resultat (
     id              SERIAL PRIMARY KEY,
-    analyse_id      INTEGER NOT NULL UNIQUE REFERENCES analyse(id) ON DELETE CASCADE,
+    analyse_id      INTEGER NOT NULL UNIQUE REFERENCES analyse_param(id) ON DELETE CASCADE,
     valeur          NUMERIC(12,4),
     conforme        BOOLEAN,                                    -- valeur <= seuil réglementaire
     saisi_par       INTEGER REFERENCES utilisateur(id),         -- technicien
@@ -115,6 +117,6 @@ CREATE TABLE journal_audit (
 
 -- ---------- Index utiles ----------
 CREATE INDEX idx_echantillon_client     ON echantillon(client_id);
-CREATE INDEX idx_analyse_echantillon    ON analyse(echantillon_id);
+CREATE INDEX idx_analyse_echantillon    ON analyse_param(echantillon_id);
 CREATE INDEX idx_resultat_analyse       ON resultat(analyse_id);
 CREATE INDEX idx_audit_horodatage       ON journal_audit(horodatage);

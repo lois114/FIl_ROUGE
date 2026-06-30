@@ -22,7 +22,7 @@ GRANT SELECT ON ALL TABLES IN SCHEMA lims TO r_lecture;
 
 -- Technicien : lecture + saisie des analyses/résultats (pas de validation)
 GRANT r_lecture TO r_technicien;
-GRANT INSERT, UPDATE ON analyse, resultat TO r_technicien;
+GRANT INSERT, UPDATE ON analyse_param, resultat TO r_technicien;
 GRANT INSERT, UPDATE ON echantillon       TO r_technicien;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA lims TO r_technicien;
 -- Le technicien NE PEUT PAS écrire la validation (colonnes valide_par/valide_le)
@@ -39,7 +39,7 @@ GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA lims TO r_commercial;
 
 -- Application (compte de service) : juste ce qu'il faut pour fonctionner
 GRANT r_lecture TO r_appli;
-GRANT INSERT, UPDATE ON echantillon, analyse, resultat, rapport TO r_appli;
+GRANT INSERT, UPDATE ON echantillon, analyse_param, resultat, rapport TO r_appli;
 GRANT INSERT ON journal_audit TO r_appli;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA lims TO r_appli;
 
