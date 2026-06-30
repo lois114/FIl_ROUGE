@@ -26,6 +26,7 @@ services:
       - pg_data:/var/lib/postgresql/data
       - ./bdd/01_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
       - ./bdd/02_roles_dcl.sql:/docker-entrypoint-initdb.d/02_roles_dcl.sql:ro
+      - ./bdd/03_seed.sql:/docker-entrypoint-initdb.d/03_seed.sql:ro
     restart: unless-stopped
 
   mongo:
@@ -35,6 +36,7 @@ services:
       - MONGO_INITDB_DATABASE=aqualab_logs
     volumes:
       - mongo_data:/data/db
+      - ./bdd/05_seed_logs.js:/docker-entrypoint-initdb.d/05_seed_logs.js:ro
     restart: unless-stopped
 
   # --- Outils d'administration web (lab uniquement) ---
