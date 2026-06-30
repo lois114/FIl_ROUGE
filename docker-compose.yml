@@ -39,6 +39,19 @@ services:
       - ./bdd/05_seed_logs.js:/docker-entrypoint-initdb.d/05_seed_logs.js:ro
     restart: unless-stopped
 
+  # --- Base graphe : tracabilite / chaine de validation (Axe 4) ---
+  neo4j:
+    image: neo4j:5
+    container_name: aqualab-neo4j
+    ports:
+      - "7474:7474"        # Neo4j Browser (interface web graphe)
+      - "7687:7687"        # protocole Bolt (cypher-shell, drivers)
+    environment:
+      - NEO4J_AUTH=neo4j/ChangeMeNeo4j_2026
+    volumes:
+      - neo4j_data:/data
+    restart: unless-stopped
+
   # --- Outils d'administration web (lab uniquement) ---
   adminer:
     image: adminer:latest
@@ -115,5 +128,6 @@ services:
 volumes:
   pg_data:
   mongo_data:
+  neo4j_data:
   prom_data:
   grafana_data:
