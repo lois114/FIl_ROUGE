@@ -1,0 +1,87 @@
+# AquaLab — stack applicative (Axe 6 : déploiement reproductible)
+# Démarre : API + PostgreSQL (métier) + MongoDB (logs) + outils d'admin web.
+# Lancement : docker compose up -d
+services:
+  app:
+    build: .
+    container_name: aqualab-app
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=postgres
+      - DB_NAME=aqualab
+    depends_on:
+      - postgres
+      - mongo
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16
+    container_name: aqualab-postgres
+    environment:
+      - POSTGRES_DB=aqualab
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=ChangeMePg_2026
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./bdd/01_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+      - ./bdd/02_roles_dcl.sql:/docker-entrypoint-initdb.d/02_roles_dcl.sql:ro
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:7
+    container_name: aqualab-mongo
+    environment:
+      - MONGO_INITDB_DATABASE=aqualab_logs
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+
+  # --- Outils d'administration web (lab uniquement) ---
+  adminer:
+    image: adminer:latest
+    container_name: aqualab-adminer
+    ports:
+      - "8083:8080"        # interface web pour PostgreSQL
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  # --- Observabilité : Prometheus + Grafana (axe 6) ---
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: aqualab-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prom_data:/prometheus
+    depends_on:
+      - app
+    restart: unless-stopped
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: aqualab-node-exporter
+    ports:
+      - "9100:9100"
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: aqualab-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=ChangeMeGrafana_2026
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+volumes:
+  pg_data:
+  mongo_data:
+  prom_data:
+  grafana_data:

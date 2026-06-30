@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# Secrets / environnement (ne jamais committer)
+.env
+*.key
+*.pem
+
+# Sauvegardes
+*.sql.gz
+*.gpg
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
