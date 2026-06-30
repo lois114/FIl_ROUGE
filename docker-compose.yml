@@ -49,6 +49,21 @@ services:
       - postgres
     restart: unless-stopped
 
+  mongo-express:
+    image: mongo-express:latest
+    container_name: aqualab-mongo-express
+    ports:
+      - "8084:8081"        # interface web pour MongoDB
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=ChangeMeMongo_2026
+    depends_on:
+      - mongo
+    restart: unless-stopped
+
   # --- Observabilité : Prometheus + Grafana (axe 6) ---
   prometheus:
     image: prom/prometheus:latest
