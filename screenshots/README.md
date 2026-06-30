@@ -9,6 +9,8 @@ moteur de rendu Grafana (service `renderer` du `docker-compose.yml`).
 | `panel-debit-requetes.png` | Débit de requêtes par endpoint (req/s) |
 | `panel-cibles-up.png` | Table d'état des cibles Prometheus (node, app, prometheus) |
 | `panel-cpu.png` | Charge CPU dans le temps |
+| `neo4j-graphe-complet.png` | Graphe de traçabilité complet Neo4j (98 nœuds, 176 relations), coloré par type |
+| `neo4j-chaine-tracabilite.png` | Chaîne d'un échantillon (Client→Site→Échantillon→Analyse→Résultat) + séparation des tâches (A_SAISI / A_VALIDE) |
 
 ## Régénérer les captures
 
