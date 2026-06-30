@@ -78,6 +78,8 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=ChangeMeGrafana_2026
     volumes:
       - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
     depends_on:
       - prometheus
     restart: unless-stopped
