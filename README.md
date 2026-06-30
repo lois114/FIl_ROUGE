@@ -98,4 +98,3 @@ Le service `renderer` (grafana-image-renderer) permet l'export PNG/PDF des dashb
 - **Bases non exposées** : PostgreSQL et MongoDB ne publient pas leurs ports vers l'hôte
   (accès via Adminer / mongo-express / conteneurs uniquement).
 
-> Pensez à changer tous les mots de passe `ChangeMe..._2026` avant toute mise en service.
